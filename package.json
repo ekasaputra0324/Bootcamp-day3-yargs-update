@@ -1,0 +1,27 @@
+{
+  "name": "Bootcamp-day2-contact-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "nodemon": "^2.0.20",
+    "validator": "^13.9.0",
+    "yargs": "^17.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekasaputra0324/Bootcamp-day1-validator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ekasaputra0324/Bootcamp-day1-validator/issues"
+  },
+  "homepage": "https://github.com/ekasaputra0324/Bootcamp-day1-validator#readme"
+}
