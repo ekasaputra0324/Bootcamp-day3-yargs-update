@@ -5,6 +5,7 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+var pathFile = "data/contact.json";
 
 //function raeadline  
 const questions = (ask) => {
@@ -19,12 +20,43 @@ const questions = (ask) => {
     });
 }
 
+/*
+find contact di gunakan untuk mencari data contac berdasarkan 
+nama pengunna
+*/
+const findContact = (name) => {
+    fs.readFile(pathFile, 'utf8', (err, data) => {
+        if (err) throw err;
+        if (!err) {
+            
+            let parse = JSON.parse(data);
+            // find data berdasarkan naama yang telah di inputkan
+            let get = parse.find(parse => parse.nama === name);
+            // error hendling jika email kosong
+            if (get.email === undefined) {
+                console.log(
+                    get.nama,
+                    "email kosong", 
+                    get.nomer
+                    );
+            }else{
+                console.log(
+                    get.nama,
+                    get.email, 
+                    get.nomer
+                    );
+            }
+        }
+    });
+}
+
+
 // function save contact
 const saveContact = (nama, email,nomerhp) => {
         /*
         mengecek file contact.json di directory data
         */ 
-    fs.readFile('data/contact.json', 'utf8', (err, data) => {
+    fs.readFile(pathFile, 'utf8', (err, data) => {
         if (err) {
             console.log(err);
         }
@@ -56,7 +88,7 @@ const saveContact = (nama, email,nomerhp) => {
                 contact.json yang berisi array dan obaject
                 */ 
                 let parse = JSON.stringify(json);
-                fs.writeFile('data/contact.json', parse, 'utf8', (err) => {
+                fs.writeFile(pathFile, parse, 'utf8', (err) => {
         
                     if (err) {
                         console.log(err);
@@ -68,4 +100,4 @@ const saveContact = (nama, email,nomerhp) => {
     })
 }
 
-module.exports = {questions, saveContact};
+module.exports = {questions, saveContact, findContact};
