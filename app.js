@@ -31,14 +31,70 @@ const main = async () => {
     dengan flag dan tipe data yang sudah di kita set di builder dengan output object / array
     */ 
     yargs.command({
-        command: 'delete',
-        describe: 'get detail contact',
+        command: 'update',
+        describe: 'update contact',
         builder: {
-            name: {
-                describe: 'Contact Name',
+            Oldname: {
+                describe: 'Contact Oldname',
                 demandOption: true,
                 type: 'string'
             },
+            Newname: {
+                describe: 'Contact Newname',
+                demandOption: false,
+                type: 'string'
+            },
+            email: {
+                describe: 'Contact email',
+                demandOption: false,
+                type: 'string'
+            },
+            mobile: {
+                describe: 'Contact mobile',
+                demandOption: false,
+                type: 'string'
+            },
+        },
+        handler: (argv) => {
+            contacts.updateContact(argv.Oldname, argv.Newname, argv.email,argv.mobile);
+        }
+    });
+    // command add contact
+    yargs.command({
+        command: 'add',
+        describe: 'add contact',
+        builder: {
+            name: {
+                describe: 'Contact Oldname',
+                demandOption: true,
+                type: 'string'
+            },
+            email: {
+                describe: 'Contact email',
+                demandOption: true,
+                type: 'string'
+            },
+            mobile: {
+                describe: 'Contact mobile',
+                demandOption: true,
+                type: 'string'
+            },
+        },
+        handler: (argv) => {
+                contacts.saveContact(argv.name ,argv.email,argv.mobile);
+        }
+    });
+    // commands deleted contact
+    yargs.command({
+        command: 'delete',
+        describe: 'delete  contact',
+        builder: {
+            name: {
+                describe: 'Contact Oldname',
+                demandOption: true,
+                type: 'string'
+            },
+            
         },
         handler: (argv) => {
             contacts.deleteContacts(argv.name);

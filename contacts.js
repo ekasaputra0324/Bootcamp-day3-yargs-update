@@ -1,6 +1,7 @@
 const readline = require('readline');
 const fs = require('fs');
-
+const path = require('path');
+const validator = require('validator');
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -31,9 +32,10 @@ const deleteContacts = (name) => {
             
             let parse = JSON.parse(data);
             // find data berdasarkan naama yang telah di inputkan
-            let get = parse.filter(parse => parse.nama.toLowerCase() !== name.toLowerCase());
+            let get = parse.find(parse => parse.nama.toLowerCase() !== name.toLowerCase());
             // penimimpaan data dengan metode find
             let newData = JSON.stringify(get);
+            console.log(get);
             fs.writeFile(pathFile,newData , 'utf8', (err, data) => {
                 if (err) throw err;
                 if (!err) {
@@ -65,6 +67,49 @@ const listContact = () => {
             });
         }
     })
+}
+
+
+/*
+function update data berdasarkan
+nama
+*/ 
+const updateContact = (oldName,newName, email,mobile) => {
+    // mengambil data dari file contact.json
+    const contact = JSON.parse(fs.readFileSync(pathFile, 'utf8'));
+    // find data berdasarkan index data
+    const index = contact.findIndex((contact) =>contact.nama.toLowerCase() === oldName.toLowerCase());
+    // jikan index < 0 brati contact tidak di temukan
+    if (index < 0) {
+        console.log("contact not found");
+        process.exit(0)
+    }
+    // mengecek nama contact apakah sudah tersedia
+    const cekName = contact.find((contact) => contact.nama.toLowerCase() === newName.toLowerCase());
+    if (cekName) {
+        console.log("contact already exists");
+        process.exit(0)
+    }
+    contact[index].nama = newName;
+    // valodator email
+    console.log(newName);
+    if (email) {
+        if (!validator.isEmail(email)) {
+              console.log("email is not valid");              
+        }
+    }
+    contact[index].email = email;
+    // validator nomer tlpn
+    if (mobile) {
+        if (!validator.isMobilePhone(mobile, 'id-ID')) {
+              console.log("mobile number is not valid");              
+        }
+    }
+    contact[index].nomer = mobile;
+    // menyimpan ulang data contact 
+    fs.writeFileSync(pathFile, JSON.stringify(contact))
+    console.log(`data ${oldName} successfully updated`);
+    
 }
 
 /*
@@ -99,7 +144,8 @@ const findContact = (name) => {
 
 
 // function save contact
-const saveContact = (nama, email,nomerhp) => {
+const saveContact = (name, email,mobile) => {
+    console.log(name, email, mobile);
         /*
         mengecek file contact.json di directory data
         */ 
@@ -109,42 +155,43 @@ const saveContact = (nama, email,nomerhp) => {
         }
         // jika data file ada data akan di tampung di dalam variabel json
         json = JSON.parse(data);
+        console.log(json);
         /*
         pengecekan apakah ada nama yang sama di dalam 
         contact.json yang berisi array data
         */ 
         for (let i = 0; i < json.length; i++) {
-        if (json[i].nama.toLowerCase() == nama.toLowerCase()) {
+        if (json[i].nama.toLowerCase() == name.toLowerCase()) {
                 console.log("name already exists");
-            }else{
-                // pengecekan email null atau tidak 
-                if (email == null) {
-                    json.push({
-                        nama: nama,
-                        nomer: nomerhp
-                    }); 
-                }else{
-                    json.push({
-                        nama: nama,
-                        email: email,
-                        nomer: nomerhp
-                    });
+            }
+        }       
+        // pengecekan email null atau tidak 
+        if (email == null) {
+            json.push({
+                nama: name,
+                nomer: mobile
+            }); 
+        }else{
+            json.push({
+                nama: name,
+                email: email,
+                nomer: mobile
+            });
+        /*
+        parse data menjadi string dan akan di masukan ke dalam file 
+            contact.json yang berisi array dan obaject
+            */ 
+            let parse = JSON.stringify(json);
+            console.log(parse);
+            fs.writeFile(pathFile, parse, 'utf8', (err) => {
+        
+                if (err) {
+                    console.log(err);
                 }
-                /*
-                parse data menjadi string dan akan di masukan ke dalam file 
-                contact.json yang berisi array dan obaject
-                */ 
-                let parse = JSON.stringify(json);
-                fs.writeFile(pathFile, parse, 'utf8', (err) => {
-        
-                    if (err) {
-                        console.log(err);
-                    }
-                })        
-            }       
-        }
-        
-    })
+            })        
+    }
+    
+})
 }
 
-module.exports = {questions, saveContact, findContact, listContact, deleteContacts};
+module.exports = {questions, saveContact, findContact, listContact, deleteContacts, updateContact};
