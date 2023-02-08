@@ -1,11 +1,1 @@
-[
-    {
-        "nama": "eka",
-        "email": "ekasaputra0324@gmail.com",
-        "nomer": "081234971970"
-    },
-    {
-        "nama": "eka2",
-        "nomer": "081234971970"
-    }
-]
+[{"nama":"putra","email":"putra@gmail.com","nomer":"081234971970"},{"nama":"eka2","email":"ekasaputra0324@gmail.com","nomer":"081234971970"}]

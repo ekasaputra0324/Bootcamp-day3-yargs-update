@@ -31,17 +31,17 @@ const main = async () => {
     dengan flag dan tipe data yang sudah di kita set di builder dengan output object / array
     */ 
     yargs.command({
-        command: 'list',
+        command: 'delete',
         describe: 'get detail contact',
         builder: {
             name: {
                 describe: 'Contact Name',
-                demandOption: false,
+                demandOption: true,
                 type: 'string'
             },
         },
         handler: (argv) => {
-            contacts.listContact();
+            contacts.deleteContacts(argv.name);
         }
     });
 }

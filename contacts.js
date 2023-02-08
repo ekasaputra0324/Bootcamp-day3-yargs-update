@@ -19,6 +19,32 @@ const questions = (ask) => {
         });
     });
 }
+/*
+functio deleted data menhapus 
+berdasarkan deleted 
+*/ 
+const deleteContacts = (name) => {
+    console.log(name);
+    fs.readFile(pathFile, 'utf8', (err, data) => {
+        if (err) throw err;
+        if (!err) {
+            
+            let parse = JSON.parse(data);
+            // find data berdasarkan naama yang telah di inputkan
+            let get = parse.filter(parse => parse.nama.toLowerCase() !== name.toLowerCase());
+            // penimimpaan data dengan metode find
+            let newData = JSON.stringify(get);
+            fs.writeFile(pathFile,newData , 'utf8', (err, data) => {
+                if (err) throw err;
+                if (!err) {
+                    console.log(`Data ${name} successfully deleted`);
+                }
+            });
+            
+        }
+    });
+}
+
 
 /*
 function listlistContact di gunakan untuk menampilkan list 
@@ -121,4 +147,4 @@ const saveContact = (nama, email,nomerhp) => {
     })
 }
 
-module.exports = {questions, saveContact, findContact, listContact};
+module.exports = {questions, saveContact, findContact, listContact, deleteContacts};
