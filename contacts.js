@@ -21,6 +21,27 @@ const questions = (ask) => {
 }
 
 /*
+function listlistContact di gunakan untuk menampilkan list 
+dari data
+*/ 
+
+const listContact = () => {
+    fs.readFile(pathFile, 'utf8', (err, data) => {
+        if (err) throw err;
+        if (!err) {
+            let parse = JSON.parse(data);
+            console.log(parse);
+            i = 1
+            // forech mengeluarkan semua data yang aada di dalam array
+            parse.forEach(data =>{
+                console.log(i, data.nama  +" -- " +data.nomer);
+              i++;
+            });
+        }
+    })
+}
+
+/*
 find contact di gunakan untuk mencari data contac berdasarkan 
 nama pengunna
 */
@@ -100,4 +121,4 @@ const saveContact = (nama, email,nomerhp) => {
     })
 }
 
-module.exports = {questions, saveContact, findContact};
+module.exports = {questions, saveContact, findContact, listContact};

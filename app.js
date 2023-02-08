@@ -31,21 +31,17 @@ const main = async () => {
     dengan flag dan tipe data yang sudah di kita set di builder dengan output object / array
     */ 
     yargs.command({
-        command: 'detail',
+        command: 'list',
         describe: 'get detail contact',
         builder: {
             name: {
                 describe: 'Contact Name',
-                demandOption: true,
+                demandOption: false,
                 type: 'string'
             },
         },
         handler: (argv) => {
-            
-            name = argv.name;
-            // pemangilan fungsi find contact di main 
-            contacts.findContact(name);
-            
+            contacts.listContact();
         }
     });
 }
